@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/Auxilary';
 import withClass from '../../../hoc/withClass';
 import classes from './Person.css';
 import PropTypes from 'prop-types';

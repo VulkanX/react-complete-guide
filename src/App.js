@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from './Components/Persons/Persons';
 import Cockpit from './Components/Cockpit/Cockpit';
-import Aux from './hoc/Aux';
+import Aux from './hoc/Auxilary';
 import withClass from './hoc/withClass';
 
 
