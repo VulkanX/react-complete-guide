@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from './Components/Persons/Persons';
 import Cockpit from './Components/Cockpit/Cockpit';
+import Aux from './hoc/Aux';
+import withClass from './hoc/withClass';
 
 
 class App extends Component {
@@ -38,7 +40,9 @@ class App extends Component {
       { id: 1998, name: 'Katy', age: 30 }
     ],
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0,
+    authenticated: false
   }
 
   deletePersonHandler = (personIndex) => {
@@ -58,13 +62,26 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons});
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
+      
+    });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
 
   togglePersonsHandler = () => {
     const currentState = this.state.showPersons;
-    this.setState({showPersons: !currentState});
+    this.setState((prevState, props) => {
+      return {
+      showPersons: !currentState
+      }
+    });
   }
 
 
@@ -79,18 +96,24 @@ class App extends Component {
             persons={this.state.persons}
             clicked={this.deletePersonHandler}
             changed={this.nameChangedHandler}
+            isAuthenticated={this.state.authenticated}
           />
       )
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
         <button onClick={() => {this.setState({showCockpit: false})}}>Remove Cockpit</button>
-        { this.state.showCockpit ? (<Cockpit showPersons={this.state.showPersons} personsLength={this.state.persons.length} clicked={this.togglePersonsHandler} />) : null }
+        { this.state.showCockpit ? (<Cockpit 
+          showPersons={this.state.showPersons} 
+          personsLength={this.state.persons.length} 
+          clicked={this.togglePersonsHandler}
+          login={this.loginHandler}
+           />) : null }
         {persons}
-      </div>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
